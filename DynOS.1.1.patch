@@ -87,7 +87,7 @@ index 00000000..22d079a7
 +
 +//
 +// DynOS Array
-+// A vector-like array, implemented to be processed really fast, but cannot handle C++ complex classes like std::string
++// A vector-like array, implemented to be processed really fast but cannot handle C++ complex classes like std::string
 +//
 +
 +template <typename T>
