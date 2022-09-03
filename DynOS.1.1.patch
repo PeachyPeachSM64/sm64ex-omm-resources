@@ -4908,11 +4908,11 @@ index 00000000..02ca470a
 +static void *geo_rotate_3d_coin(s32 callContext, void *node, UNUSED void *c) {
 +    if (callContext == GEO_CONTEXT_RENDER) {
 +        struct Object *obj = (struct Object *) gCurGraphNodeObject;
++        obj->oFaceAnglePitch = obj->oFaceAngleRoll = 0;
++        obj->oMoveAnglePitch = obj->oMoveAngleRoll = 0;
 +        struct GraphNodeRotation *rotNode = (struct GraphNodeRotation *) ((struct GraphNode *) node)->next;
-+        rotNode->rotation[0] = 0;
-+        rotNode->rotation[1] = obj->oAnimState;
-+        rotNode->rotation[2] = 0;
-+        obj->oAnimState += 0x0800;
++        vec3s_set(gCurGraphNodeObject->angle, 0, 0, 0);
++        vec3s_set(rotNode->rotation, 0, obj->oTimer * 0x800, 0);
 +    }
 +    return NULL;
 +}
