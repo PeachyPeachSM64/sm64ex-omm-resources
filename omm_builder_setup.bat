@@ -19,11 +19,16 @@ if exist "%root_path%/msys64/mingw64.exe" (
 		)
 	)
 )
+if exist "sm64ex-omm-test" (
+	set omm_repo=https://github.com/PeachyPeachSM64/sm64ex-omm-test.git
+) else (
+	set omm_repo=https://github.com/PeachyPeachSM64/sm64ex-omm.git
+)
 echo echo "Setting up OMM Builder and its dependencies..." > omm_builder_setup.sh
 echo pacman -Syu --noconfirm >> omm_builder_setup.sh
 echo pacman -Syu --noconfirm zip unzip p7zip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3 >> omm_builder_setup.sh
 echo git config --global credential.helper store >> omm_builder_setup.sh
-echo git clone --single-branch https://github.com/PeachyPeachSM64/sm64ex-omm.git -b master >> omm_builder_setup.sh
-echo rm -f mingw64_path >> omm_builder_setup.sh
+echo git clone --single-branch %omm_repo% -b master sm64ex-omm >> omm_builder_setup.sh
+echo mv -f mingw64_path sm64ex-omm/mingw64_path >> omm_builder_setup.sh
 echo rm -f omm_builder_setup.sh >> omm_builder_setup.sh
 start !mingw64_path! bash omm_builder_setup.sh
