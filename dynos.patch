@@ -746,7 +746,7 @@ new file mode 100644
 index 0000000..2747b9e
 --- /dev/null
 +++ b/data/dynos.h
-@@ -0,0 +1,136 @@
+@@ -0,0 +1,137 @@
 +#ifndef DYNOS_H
 +#define DYNOS_H
 +
@@ -869,6 +869,7 @@ index 0000000..2747b9e
 +#define _loopStart                      unk06
 +#define _loopEnd                        unk08
 +#define _unusedBoneCount                unk0A
++extern s32 gWdwWaterLevelSet;
 +#endif
 +
 +// Other includes
