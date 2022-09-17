@@ -824,7 +824,7 @@ index 0000000..2747b9e
 +#endif
 +
 +// Versions
-+#ifdef QOL_FEATURE_Z_BUTTON_EXTRA_OPTION // ex-alo
++#if !defined(COIN_FORMATION_FLAG_VERTICAL) || SUPER_MARIO_74_AND_EXTREME_EDITION || SUPER_MARIO_STAR_ROAD // ex-alo
 +#undef QOL_FEATURE_Z_BUTTON_EXTRA_OPTION
 +#define DYNOS_EX_ALO                    1
 +#define FILE_OPTIONS_C                  "extras/options_menu.c"
