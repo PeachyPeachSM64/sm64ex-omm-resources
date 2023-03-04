@@ -22,7 +22,7 @@ echo pacman -Syu --noconfirm >> omm_builder_setup.sh
 echo pacman -Syu --noconfirm zip unzip p7zip make git mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL2 mingw-w64-i686-SDL mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL python3 >> omm_builder_setup.sh
 if not exist "omm_builder.sh" (
 	echo git config --global credential.helper store >> omm_builder_setup.sh
-	echo git clone --single-branch %omm_repo% -b builder sm64ex-omm >> omm_builder_setup.sh
+	echo git clone --single-branch --depth 1 %omm_repo% -b builder sm64ex-omm >> omm_builder_setup.sh
 	echo cd sm64ex-omm >> omm_builder_setup.sh
 )
 echo git reset --hard HEAD >> omm_builder_setup.sh
