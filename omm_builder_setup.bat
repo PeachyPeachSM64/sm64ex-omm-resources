@@ -46,3 +46,23 @@ goto waitloop
 echo rm -f omm_builder_setup.sh >> omm_builder_setup.sh
 echo rm -f ../omm_builder_setup.sh >> omm_builder_setup.sh
 %mingw64exe% bash omm_builder_setup.sh
+
+:: Setup registry keys (needs admin perms)
+reg add HKEY_CLASSES_ROOT\*\shell\OpenMinGW64 /f /ve /t REG_SZ /d "Open MinGW64 here"
+reg add HKEY_CLASSES_ROOT\*\shell\OpenMinGW64 /f /v "Icon" /t REG_SZ /d "%mingw64exe%"
+reg add HKEY_CLASSES_ROOT\*\shell\OpenMinGW64\command /f /ve /t REG_SZ /d "%mingw64exe% bash"
+reg add HKEY_CLASSES_ROOT\Directory\shell\OpenMinGW64 /f /ve /t REG_SZ /d "Open MinGW64 here"
+reg add HKEY_CLASSES_ROOT\Directory\shell\OpenMinGW64 /f /v "Icon" /t REG_SZ /d "%mingw64exe%"
+reg add HKEY_CLASSES_ROOT\Directory\shell\OpenMinGW64\command /f /ve /t REG_SZ /d "%mingw64exe% bash"
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\OpenMinGW64 /f /ve /t REG_SZ /d "Open MinGW64 here"
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\OpenMinGW64 /f /v "Icon" /t REG_SZ /d "%mingw64exe%"
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\OpenMinGW64\command /f /ve /t REG_SZ /d "%mingw64exe% bash"
+reg add HKEY_CLASSES_ROOT\*\shell\OpenOmmBuilder /f /ve /t REG_SZ /d "Open OMM Builder here"
+reg add HKEY_CLASSES_ROOT\*\shell\OpenOmmBuilder /f /v "Icon" /t REG_SZ /d "%mingw64exe%"
+reg add HKEY_CLASSES_ROOT\*\shell\OpenOmmBuilder\command /f /ve /t REG_SZ /d "%mingw64exe% bash -c \"python3 omm_builder.py\""
+reg add HKEY_CLASSES_ROOT\Directory\shell\OpenOmmBuilder /f /ve /t REG_SZ /d "Open OMM Builder here"
+reg add HKEY_CLASSES_ROOT\Directory\shell\OpenOmmBuilder /f /v "Icon" /t REG_SZ /d "%mingw64exe%"
+reg add HKEY_CLASSES_ROOT\Directory\shell\OpenOmmBuilder\command /f /ve /t REG_SZ /d "%mingw64exe% bash -c \"python3 omm_builder.py\""
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\OpenOmmBuilder /f /ve /t REG_SZ /d "Open OMM Builder here"
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\OpenOmmBuilder /f /v "Icon" /t REG_SZ /d "%mingw64exe%"
+reg add HKEY_CLASSES_ROOT\Directory\Background\shell\OpenOmmBuilder\command /f /ve /t REG_SZ /d "%mingw64exe% bash -c \"python3 omm_builder.py\""
