@@ -40,7 +40,6 @@ goto update_loop
 :: Install dependencies and setup OMM Builder
 (
 echo pacman -S --noconfirm --overwrite=* curl make git zip unzip p7zip python python3 mingw-w64-i686-python-pip mingw-w64-x86_64-python-pip mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL mingw-w64-x86_64-SDL mingw-w64-i686-SDL2 mingw-w64-x86_64-SDL2
-echo pip3 install --upgrade pip
 echo pip3 install -U requests
 echo git clone --single-branch --depth 1 "https://github.com/PeachyPeachSM64/sm64ex-omm.git" -b builder sm64ex-omm
 echo cd sm64ex-omm
