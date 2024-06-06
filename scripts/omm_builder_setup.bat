@@ -9,13 +9,15 @@ if not exist %mingw64exe% (
 	curl -Lk -o msys2.exe --url "https://github.com/msys2/msys2-installer/releases/download/2023-10-26/msys2-x86_64-20231026.exe"
 	msys2.exe install --root "%ProgramData%\msys2" --confirm-command
 	del msys2.exe
-) else (
-	goto update_end
 )
+
+:: Clear leftovers of a previous install
+%mingw64exe% bash -c "rm -rf /var/lib/pacman/local/*"
+timeout /t 5 /nobreak > nul
 
 :: Initialize mingw64
 echo Initializing mingw64... Do not close this window.
-%mingw64exe% bash -c "pacman -Sy --noconfirm pacman"
+%mingw64exe% bash -c "pacman -Sy --noconfirm --overwrite=* pacman"
 timeout /t 5 /nobreak > nul
 :init_loop
 tasklist | find /I "pacman.exe" > nul
@@ -26,7 +28,7 @@ goto init_loop
 
 :: Update mingw64
 echo Updating mingw64... Do not close this window.
-%mingw64exe% bash -c "pacman -Syu --noconfirm"
+%mingw64exe% bash -c "pacman -Syu --noconfirm --overwrite=*"
 timeout /t 5 /nobreak > nul
 :update_loop
 tasklist | find /I "pacman.exe" > nul
@@ -37,13 +39,14 @@ goto update_loop
 
 :: Install dependencies and setup OMM Builder
 (
-echo pacman -S --noconfirm wget make git zip unzip p7zip python python3 mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL mingw-w64-x86_64-SDL mingw-w64-i686-SDL2 mingw-w64-x86_64-SDL2
+echo pacman -S --noconfirm --overwrite=* curl make git zip unzip p7zip python python3 mingw-w64-i686-python-pip mingw-w64-x86_64-python-pip mingw-w64-i686-gcc mingw-w64-x86_64-gcc mingw-w64-i686-glew mingw-w64-x86_64-glew mingw-w64-i686-SDL mingw-w64-x86_64-SDL mingw-w64-i686-SDL2 mingw-w64-x86_64-SDL2
+echo pip3 install --upgrade pip
+echo pip3 install -U requests
 echo git clone --single-branch --depth 1 "https://github.com/PeachyPeachSM64/sm64ex-omm.git" -b builder sm64ex-omm
 echo cd sm64ex-omm
 echo git reset --hard HEAD
 echo git clean -f -d
 echo git pull
-echo cd -
-echo rm -f omm_builder_setup.sh
+echo rm -f ../omm_builder_setup.sh
 ) > omm_builder_setup.sh
 %mingw64exe% bash omm_builder_setup.sh
