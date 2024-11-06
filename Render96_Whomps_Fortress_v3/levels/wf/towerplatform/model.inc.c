@@ -1,0 +1,117 @@
+Lights1 towerplatform_Material_008_f3d_lights = gdSPDefLights1(
+	0x7F, 0x7F, 0x7F,
+	0xFE, 0xFE, 0xFE, 0x28, 0x28, 0x28);
+
+Gfx towerplatform_TowerPlatform_rgba32_aligner[] = {gsSPEndDisplayList()};
+u8 towerplatform_TowerPlatform_rgba32[] = "levels/wf/TowerPlatform.rgba32";
+
+Vtx towerplatform_000_displaylist_mesh_layer_1_vtx_0[44] = {
+	{{{215, 102, -204},0, {-16619, 65322},{0x0, 0x7F, 0x0, 0xFF}}},
+	{{{-214, 102, -204},0, {-32565, 65322},{0x0, 0x7F, 0x0, 0xFF}}},
+	{{{-214, 102, 205},0, {-32565, 51154},{0x0, 0x7F, 0x0, 0xFF}}},
+	{{{215, 102, 205},0, {-16619, 51154},{0x0, 0x7F, 0x0, 0xFF}}},
+	{{{-214, 102, 205},0, {-4191, 65322},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{-214, 51, 205},0, {-8129, 65322},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{215, 51, 205},0, {-8129, 51154},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{215, 102, 205},0, {-4191, 51154},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{-214, 51, 205},0, {-16619, 32952},{0x81, 0x0, 0x0, 0xFF}}},
+	{{{-214, 102, 205},0, {-16619, 36446},{0x81, 0x0, 0x0, 0xFF}}},
+	{{{-214, 102, -204},0, {-32565, 36446},{0x81, 0x0, 0x0, 0xFF}}},
+	{{{-214, 51, -204},0, {-32565, 32952},{0x81, 0x0, 0x0, 0xFF}}},
+	{{{204, 51, 194},0, {-235, 47389},{0x7F, 0xFE, 0x0, 0xFF}}},
+	{{{203, 0, 194},0, {-235, 50883},{0x7F, 0xFE, 0x0, 0xFF}}},
+	{{{203, 0, -204},0, {-16181, 50883},{0x7F, 0xFE, 0x0, 0xFF}}},
+	{{{204, 51, -204},0, {-16181, 47389},{0x7F, 0xFE, 0x0, 0xFF}}},
+	{{{-202, 0, -204},0, {-16619, 50885},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{203, 0, -204},0, {-32565, 50885},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{203, 0, 194},0, {-32565, 36718},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{-202, 0, 194},0, {-16619, 36718},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{215, 102, 205},0, {-95, 65322},{0x7F, 0x0, 0x0, 0xFF}}},
+	{{{215, 51, -204},0, {-4033, 51154},{0x7F, 0x0, 0x0, 0xFF}}},
+	{{{215, 102, -204},0, {-95, 51154},{0x7F, 0x0, 0x0, 0xFF}}},
+	{{{215, 51, 205},0, {-4033, 65322},{0x7F, 0x0, 0x0, 0xFF}}},
+	{{{-203, 51, 194},0, {-235, 40107},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{-202, 0, 194},0, {-235, 43601},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{203, 0, 194},0, {-16181, 43601},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{204, 51, 194},0, {-16181, 40107},{0x0, 0x0, 0x7F, 0xFF}}},
+	{{{-202, 0, 194},0, {-235, 43748},{0x81, 0xFE, 0x0, 0xFF}}},
+	{{{-203, 51, 194},0, {-235, 47242},{0x81, 0xFE, 0x0, 0xFF}}},
+	{{{-203, 51, -204},0, {-16181, 47242},{0x81, 0xFE, 0x0, 0xFF}}},
+	{{{-202, 0, -204},0, {-16181, 43748},{0x81, 0xFE, 0x0, 0xFF}}},
+	{{{-203, 51, 194},0, {-235, 36466},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{-214, 51, 205},0, {-235, 39960},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{-214, 51, -204},0, {-16181, 39960},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{-203, 51, -204},0, {-16181, 36466},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{-214, 51, 205},0, {-8287, 65322},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{-203, 51, 194},0, {-12225, 65322},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{204, 51, 194},0, {-12225, 51154},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{215, 51, 205},0, {-8287, 51154},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{215, 51, 205},0, {-12383, 65322},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{204, 51, 194},0, {-16321, 65322},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{204, 51, -204},0, {-16321, 51154},{0x0, 0x81, 0x0, 0xFF}}},
+	{{{215, 51, -204},0, {-12383, 51154},{0x0, 0x81, 0x0, 0xFF}}},
+};
+
+Gfx towerplatform_000_displaylist_mesh_layer_1_tri_0[] = {
+	gsSPVertex(towerplatform_000_displaylist_mesh_layer_1_vtx_0 + 0, 16, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(0, 2, 3, 0),
+	gsSP1Triangle(4, 5, 6, 0),
+	gsSP1Triangle(4, 6, 7, 0),
+	gsSP1Triangle(8, 9, 10, 0),
+	gsSP1Triangle(8, 10, 11, 0),
+	gsSP1Triangle(12, 13, 14, 0),
+	gsSP1Triangle(12, 14, 15, 0),
+	gsSPVertex(towerplatform_000_displaylist_mesh_layer_1_vtx_0 + 16, 16, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(0, 2, 3, 0),
+	gsSP1Triangle(4, 5, 6, 0),
+	gsSP1Triangle(4, 7, 5, 0),
+	gsSP1Triangle(8, 9, 10, 0),
+	gsSP1Triangle(8, 10, 11, 0),
+	gsSP1Triangle(12, 13, 14, 0),
+	gsSP1Triangle(12, 14, 15, 0),
+	gsSPVertex(towerplatform_000_displaylist_mesh_layer_1_vtx_0 + 32, 12, 0),
+	gsSP1Triangle(0, 1, 2, 0),
+	gsSP1Triangle(0, 2, 3, 0),
+	gsSP1Triangle(4, 5, 6, 0),
+	gsSP1Triangle(4, 6, 7, 0),
+	gsSP1Triangle(8, 9, 10, 0),
+	gsSP1Triangle(8, 10, 11, 0),
+	gsSPEndDisplayList(),
+};
+
+
+Gfx mat_towerplatform_Material_008_f3d[] = {
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(65535, 65535, 0, 0, 1),
+	gsDPTileSync(),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b, 1024, towerplatform_TowerPlatform_rgba32),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 256, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 10, 0, G_TX_WRAP | G_TX_NOMIRROR, 10, 0),
+	gsDPLoadSync(),
+	gsDPLoadTile(7, 0, 0, 4092, 4092),
+	gsDPPipeSync(),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 256, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 10, 0, G_TX_WRAP | G_TX_NOMIRROR, 10, 0),
+	gsDPSetTileSize(0, 0, 0, 4092, 4092),
+	gsSPSetLights1(towerplatform_Material_008_f3d_lights),
+	gsSPEndDisplayList(),
+};
+
+Gfx towerplatform_000_displaylist_mesh_layer_1[] = {
+	gsSPDisplayList(mat_towerplatform_Material_008_f3d),
+	gsSPDisplayList(towerplatform_000_displaylist_mesh_layer_1_tri_0),
+	gsSPEndDisplayList(),
+};
+
+Gfx towerplatform_material_revert_render_settings[] = {
+	gsDPPipeSync(),
+	gsSPSetGeometryMode(G_LIGHTING),
+	gsSPClearGeometryMode(G_TEXTURE_GEN),
+	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(65535, 65535, 0, 0, 0),
+	gsDPSetEnvColor(255, 255, 255, 255),
+	gsDPSetAlphaCompare(G_AC_NONE),
+	gsSPEndDisplayList(),
+};
+

@@ -1,0 +1,13 @@
+extern const GeoLayout newfall[];
+extern Lights1 fallnew_Material_001_f3d_lights;
+extern u8 fallnew_Toprock_rgba32[];
+extern u8 fallnew_Leaf_rgba32[];
+extern Vtx fallnew_000_displaylist_mesh_layer_1_vtx_0[124];
+extern Gfx fallnew_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx fallnew_000_displaylist_mesh_layer_1_vtx_1[1166];
+extern Gfx fallnew_000_displaylist_mesh_layer_1_tri_1[];
+extern Gfx mat_fallnew_Material_001_f3d[];
+extern Gfx mat_fallnew_Material_002_f3d[];
+extern Gfx mat_revert_fallnew_Material_002_f3d[];
+extern Gfx fallnew_000_displaylist_mesh_layer_1[];
+extern Gfx fallnew_material_revert_render_settings[];

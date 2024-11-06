@@ -1,0 +1,10 @@
+extern const GeoLayout towernew[];
+extern u8 towernew_GateStar_rgba32[];
+extern Vtx towernew_000_displaylist_mesh_layer_1_vtx_0[857];
+extern Gfx towernew_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx towernew_000_displaylist_001_mesh_layer_1_vtx_0[3];
+extern Gfx towernew_000_displaylist_001_mesh_layer_1_tri_0[];
+extern Gfx mat_towernew_Material_014_f3d[];
+extern Gfx towernew_000_displaylist_mesh_layer_1[];
+extern Gfx towernew_000_displaylist_001_mesh_layer_1[];
+extern Gfx towernew_material_revert_render_settings[];

@@ -1,0 +1,13 @@
+extern const GeoLayout newbase[];
+extern Lights1 basenew_Material_003_f3d_lights;
+extern u8 basenew_bottombakerock_rgba32[];
+extern u8 basenew_Leaf_rgba32[];
+extern Vtx basenew_000_displaylist_mesh_layer_1_vtx_0[188];
+extern Gfx basenew_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx basenew_000_displaylist_mesh_layer_1_vtx_1[222];
+extern Gfx basenew_000_displaylist_mesh_layer_1_tri_1[];
+extern Gfx mat_basenew_Material_003_f3d[];
+extern Gfx mat_basenew_Material_002_f3d[];
+extern Gfx mat_revert_basenew_Material_002_f3d[];
+extern Gfx basenew_000_displaylist_mesh_layer_1[];
+extern Gfx basenew_material_revert_render_settings[];

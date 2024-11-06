@@ -1,0 +1,16 @@
+extern const GeoLayout bompnewgeo[];
+extern u8 bompnew_Small_Bomp_rgba32[];
+extern u8 bompnew_BOMP_ci4[];
+extern u8 bompnew_BOMP_ci4_pal_rgba16[];
+extern Vtx bompnew_000_displaylist_mesh_layer_1_vtx_0[376];
+extern Gfx bompnew_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx bompnew_000_displaylist_mesh_layer_1_vtx_1[289];
+extern Gfx bompnew_000_displaylist_mesh_layer_1_tri_1[];
+extern Vtx bompnew_000_displaylist_001_mesh_layer_1_vtx_0[4];
+extern Gfx bompnew_000_displaylist_001_mesh_layer_1_tri_0[];
+extern Gfx mat_bompnew_mainSmall[];
+extern Gfx mat_bompnew_Eye[];
+extern Gfx mat_revert_bompnew_Eye[];
+extern Gfx bompnew_000_displaylist_mesh_layer_1[];
+extern Gfx bompnew_000_displaylist_001_mesh_layer_1[];
+extern Gfx bompnew_material_revert_render_settings[];

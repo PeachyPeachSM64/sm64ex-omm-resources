@@ -1,0 +1,14 @@
+extern const GeoLayout bigbompnewgeo[];
+extern Lights1 bigbompnew_Big_Bomp_f3d_lights;
+extern u8 bigbompnew_BOMP_ci4[];
+extern u8 bigbompnew_BOMP_ci4_pal_rgba16[];
+extern u8 bigbompnew_BigBomp_rgba32[];
+extern Vtx bigbompnew_000_displaylist_mesh_layer_1_vtx_0[223];
+extern Gfx bigbompnew_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx bigbompnew_000_displaylist_mesh_layer_1_vtx_1[359];
+extern Gfx bigbompnew_000_displaylist_mesh_layer_1_tri_1[];
+extern Gfx mat_bigbompnew_Eye[];
+extern Gfx mat_revert_bigbompnew_Eye[];
+extern Gfx mat_bigbompnew_Big_Bomp_f3d[];
+extern Gfx bigbompnew_000_displaylist_mesh_layer_1[];
+extern Gfx bigbompnew_material_revert_render_settings[];

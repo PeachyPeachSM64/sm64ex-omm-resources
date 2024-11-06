@@ -1,0 +1,12 @@
+extern const GeoLayout lava2[];
+extern Lights1 newlava_Stalagmites_f3d_lights;
+extern u8 newlava__0_rgba16_rgba32[];
+extern u8 newlava_Stalagmites_rgba32[];
+extern Vtx newlava_000_displaylist_mesh_layer_1_vtx_0[28];
+extern Gfx newlava_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx newlava_000_displaylist_mesh_layer_1_vtx_1[198];
+extern Gfx newlava_000_displaylist_mesh_layer_1_tri_1[];
+extern Gfx mat_newlava_sm64_material[];
+extern Gfx mat_newlava_Stalagmites_f3d[];
+extern Gfx newlava_000_displaylist_mesh_layer_1[];
+extern Gfx newlava_material_revert_render_settings[];

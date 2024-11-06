@@ -1,0 +1,13 @@
+extern const GeoLayout newbox[];
+extern Lights1 newbox_Wood_f3d_lights;
+extern Lights1 newbox_sm64_material_lights;
+extern u8 newbox__2_rgba16_rgba32[];
+extern u8 newbox__500_rgba32[];
+extern Vtx newbox_000_displaylist_mesh_layer_1_vtx_0[464];
+extern Gfx newbox_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx newbox_000_displaylist_mesh_layer_1_vtx_1[1144];
+extern Gfx newbox_000_displaylist_mesh_layer_1_tri_1[];
+extern Gfx mat_newbox_Wood_f3d[];
+extern Gfx mat_newbox_sm64_material[];
+extern Gfx newbox_000_displaylist_mesh_layer_1[];
+extern Gfx newbox_material_revert_render_settings[];
