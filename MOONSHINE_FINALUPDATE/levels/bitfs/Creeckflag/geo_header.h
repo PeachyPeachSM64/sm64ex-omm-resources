@@ -1,0 +1,9 @@
+extern const GeoLayout Creeckflag_geo[];
+extern Vtx Creeckflag_CheckpointFlag__CheckpointFlagBodyMat00_mesh_vtx_0[1152];
+extern Gfx Creeckflag_CheckpointFlag__CheckpointFlagBodyMat00_mesh_tri_0[];
+extern Vtx Creeckflag_CheckpointFlag__CheckpointFlagBodyMat00_mesh_vtx_1[199];
+extern Gfx Creeckflag_CheckpointFlag__CheckpointFlagBodyMat00_mesh_tri_1[];
+
+extern Gfx Creeckflag_CheckpointFlag__CheckpointFlagBodyMat00_mesh[];
+extern Gfx Creeckflag_material_revert_render_settings[];
+

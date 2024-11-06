@@ -1,0 +1,85 @@
+{
+    "date": "1996-03-19",
+    "sample_bank": "streamed_audio",
+    "envelopes": {
+        "envelope": [
+            [
+                6,
+                32700
+            ],
+            [
+                6,
+                32700
+            ],
+            [
+                32700,
+                29430
+            ],
+            "hang"
+        ]
+    },
+    "instruments": {
+        "inst0": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "23_custom_chain"
+        },
+        "inst1": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "24_custom_donk"
+        },
+        "inst2": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "25_custom_gusty"
+        },
+        "inst3": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "26_custom_ready"
+        },
+        "inst4": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "27_custom_land"
+        },
+        "inst5": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "28_custom_moon"
+        },
+        "inst6": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "29_custom_castle"
+        },
+        "inst7": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "2A_custom_snowball"
+        },
+        "inst8": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "2B_custom_snow_lava"
+        },
+        "inst9": {
+            "release_rate": 10,
+            "envelope": "envelope",
+            "sound": "2C_custom_sweet"
+        }
+    },
+    "instrument_list": [
+        "inst0",
+        "inst1",
+        "inst2",
+        "inst3",
+        "inst4",
+        "inst5",
+        "inst6",
+        "inst7",
+        "inst8",
+        "inst9"
+    ]
+}

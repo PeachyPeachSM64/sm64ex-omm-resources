@@ -1,0 +1,32 @@
+extern const GeoLayout toad_geo[];
+extern Vtx toad_000_offset_003_mesh_vtx_0[1308];
+extern Gfx toad_000_offset_003_mesh_tri_0[];
+extern Vtx toad_000_offset_003_mesh_vtx_1[369];
+extern Gfx toad_000_offset_003_mesh_tri_1[];
+extern Vtx toad_000_offset_003_mesh_vtx_2[734];
+extern Gfx toad_000_offset_003_mesh_tri_2[];
+extern Vtx toad_003_offset_mesh_vtx_0[1789];
+extern Gfx toad_003_offset_mesh_tri_0[];
+extern Vtx toad_003_offset_mesh_vtx_1[30];
+extern Gfx toad_003_offset_mesh_tri_1[];
+extern Vtx toad_000_offset_006_mesh_vtx_0[414];
+extern Gfx toad_000_offset_006_mesh_tri_0[];
+extern Vtx toad_000_offset_009_mesh_vtx_0[412];
+extern Gfx toad_000_offset_009_mesh_tri_0[];
+extern Vtx toad_000_offset_011_mesh_vtx_0[567];
+extern Gfx toad_000_offset_011_mesh_tri_0[];
+extern Vtx toad_000_offset_011_mesh_vtx_1[342];
+extern Gfx toad_000_offset_011_mesh_tri_1[];
+extern Vtx toad_000_offset_013_mesh_vtx_0[591];
+extern Gfx toad_000_offset_013_mesh_tri_0[];
+extern Vtx toad_000_offset_013_mesh_vtx_1[340];
+extern Gfx toad_000_offset_013_mesh_tri_1[];
+
+extern Gfx toad_000_offset_003_mesh[];
+extern Gfx toad_003_offset_mesh[];
+extern Gfx toad_000_offset_006_mesh[];
+extern Gfx toad_000_offset_009_mesh[];
+extern Gfx toad_000_offset_011_mesh[];
+extern Gfx toad_000_offset_013_mesh[];
+extern Gfx toad_material_revert_render_settings[];
+

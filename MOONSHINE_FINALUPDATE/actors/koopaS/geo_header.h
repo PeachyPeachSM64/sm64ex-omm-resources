@@ -1,0 +1,32 @@
+extern const GeoLayout koopaS_000_switch_opt1[];
+extern const GeoLayout koopa_with_shell_geo[];
+extern Vtx koopaS_000_offset_001_mesh_vtx_0[1977];
+extern Gfx koopaS_000_offset_001_mesh_tri_0[];
+extern Vtx koopaS_000_offset_002_mesh_vtx_0[1965];
+extern Gfx koopaS_000_offset_002_mesh_tri_0[];
+extern Vtx koopaS_000_offset_002_mesh_vtx_1[748];
+extern Gfx koopaS_000_offset_002_mesh_tri_1[];
+extern Vtx koopaS_000_offset_003_mesh_vtx_0[189];
+extern Gfx koopaS_000_offset_003_mesh_tri_0[];
+extern Vtx koopaS_000_offset_004_mesh_vtx_0[415];
+extern Gfx koopaS_000_offset_004_mesh_tri_0[];
+extern Vtx koopaS_000_offset_005_mesh_vtx_0[192];
+extern Gfx koopaS_000_offset_005_mesh_tri_0[];
+extern Vtx koopaS_000_offset_006_mesh_vtx_0[419];
+extern Gfx koopaS_000_offset_006_mesh_tri_0[];
+extern Vtx koopaS_000_offset_007_mesh_vtx_0[540];
+extern Gfx koopaS_000_offset_007_mesh_tri_0[];
+extern Vtx koopaS_000_offset_009_mesh_vtx_0[587];
+extern Gfx koopaS_000_offset_009_mesh_tri_0[];
+
+extern Gfx koopaS_000_offset_001_mesh[];
+extern Gfx koopaS_000_offset_002_mesh[];
+extern Gfx koopaS_000_offset_002_mesh_mat_override_Blink_0[];
+extern Gfx koopaS_000_offset_003_mesh[];
+extern Gfx koopaS_000_offset_004_mesh[];
+extern Gfx koopaS_000_offset_005_mesh[];
+extern Gfx koopaS_000_offset_006_mesh[];
+extern Gfx koopaS_000_offset_007_mesh[];
+extern Gfx koopaS_000_offset_009_mesh[];
+extern Gfx koopaS_material_revert_render_settings[];
+

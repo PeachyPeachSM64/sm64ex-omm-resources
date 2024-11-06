@@ -1,0 +1,32 @@
+extern const GeoLayout chuckya_geo[];
+extern Vtx chuckya_000_offset_003_mesh_vtx_0[45];
+extern Gfx chuckya_000_offset_003_mesh_tri_0[];
+extern Vtx chuckya_000_offset_003_mesh_vtx_1[568];
+extern Gfx chuckya_000_offset_003_mesh_tri_1[];
+extern Vtx chuckya_000_offset_003_mesh_vtx_2[153];
+extern Gfx chuckya_000_offset_003_mesh_tri_2[];
+extern Vtx chuckya_000_displaylist_mesh_vtx_0[568];
+extern Gfx chuckya_000_displaylist_mesh_tri_0[];
+extern Vtx chuckya_002_offset_mesh_vtx_0[151];
+extern Gfx chuckya_002_offset_mesh_tri_0[];
+extern Vtx chuckya_000_displaylist_002_mesh_vtx_0[160];
+extern Gfx chuckya_000_displaylist_002_mesh_tri_0[];
+extern Vtx chuckya_000_displaylist_003_mesh_vtx_0[436];
+extern Gfx chuckya_000_displaylist_003_mesh_tri_0[];
+extern Vtx chuckya_000_displaylist_004_mesh_vtx_0[160];
+extern Gfx chuckya_000_displaylist_004_mesh_tri_0[];
+extern Vtx chuckya_000_displaylist_005_mesh_vtx_0[441];
+extern Gfx chuckya_000_displaylist_005_mesh_tri_0[];
+extern Vtx chuckya_002_offset_003_mesh_vtx_0[92];
+extern Gfx chuckya_002_offset_003_mesh_tri_0[];
+
+extern Gfx chuckya_000_offset_003_mesh[];
+extern Gfx chuckya_000_displaylist_mesh[];
+extern Gfx chuckya_002_offset_mesh[];
+extern Gfx chuckya_000_displaylist_002_mesh[];
+extern Gfx chuckya_000_displaylist_003_mesh[];
+extern Gfx chuckya_000_displaylist_004_mesh[];
+extern Gfx chuckya_000_displaylist_005_mesh[];
+extern Gfx chuckya_002_offset_003_mesh[];
+extern Gfx chuckya_material_revert_render_settings[];
+

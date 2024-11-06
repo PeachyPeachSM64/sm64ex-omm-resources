@@ -1,0 +1,30 @@
+extern const GeoLayout spindrift_geo[];
+extern Vtx spindrift_000_offset_001_mesh_vtx_0[219];
+extern Gfx spindrift_000_offset_001_mesh_tri_0[];
+extern Vtx spindrift_000_offset_001_mesh_vtx_1[298];
+extern Gfx spindrift_000_offset_001_mesh_tri_1[];
+extern Vtx spindrift_001_offset_mesh_vtx_0[256];
+extern Gfx spindrift_001_offset_mesh_tri_0[];
+extern Vtx spindrift_002_offset_mesh_vtx_0[259];
+extern Gfx spindrift_002_offset_mesh_tri_0[];
+extern Vtx spindrift_000_offset_002_mesh_vtx_0[5942];
+extern Gfx spindrift_000_offset_002_mesh_tri_0[];
+extern Vtx spindrift_001_offset_001_mesh_vtx_0[418];
+extern Gfx spindrift_001_offset_001_mesh_tri_0[];
+extern Vtx spindrift_001_offset_001_mesh_vtx_1[376];
+extern Gfx spindrift_001_offset_001_mesh_tri_1[];
+extern Vtx spindrift_004_offset_001_mesh_vtx_0[711];
+extern Gfx spindrift_004_offset_001_mesh_tri_0[];
+extern Vtx spindrift_004_offset_001_mesh_vtx_1[95];
+extern Gfx spindrift_004_offset_001_mesh_tri_1[];
+extern Vtx spindrift_004_offset_001_mesh_vtx_2[1314];
+extern Gfx spindrift_004_offset_001_mesh_tri_2[];
+
+extern Gfx spindrift_000_offset_001_mesh[];
+extern Gfx spindrift_001_offset_mesh[];
+extern Gfx spindrift_002_offset_mesh[];
+extern Gfx spindrift_000_offset_002_mesh[];
+extern Gfx spindrift_001_offset_001_mesh[];
+extern Gfx spindrift_004_offset_001_mesh[];
+extern Gfx spindrift_material_revert_render_settings[];
+

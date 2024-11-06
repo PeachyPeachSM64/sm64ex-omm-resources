@@ -1,0 +1,30 @@
+extern const GeoLayout penguin_000_switch_opt1[];
+extern const GeoLayout penguin_000_switch_opt2[];
+extern const GeoLayout penguin_000_switch_opt3[];
+extern const GeoLayout penguin_geo[];
+extern Vtx penguin_000_offset_mesh_vtx_0[910];
+extern Gfx penguin_000_offset_mesh_tri_0[];
+extern Vtx penguin_000_offset_002_mesh_vtx_0[246];
+extern Gfx penguin_000_offset_002_mesh_tri_0[];
+extern Vtx penguin_000_offset_003_mesh_vtx_0[279];
+extern Gfx penguin_000_offset_003_mesh_tri_0[];
+extern Vtx penguin_000_offset_004_mesh_vtx_0[215];
+extern Gfx penguin_000_offset_004_mesh_tri_0[];
+extern Vtx penguin_000_offset_005_mesh_vtx_0[215];
+extern Gfx penguin_000_offset_005_mesh_tri_0[];
+extern Vtx penguin_000_offset_006_mesh_vtx_0[1176];
+extern Gfx penguin_000_offset_006_mesh_tri_0[];
+extern Vtx penguin_000_offset_006_mesh_vtx_1[299];
+extern Gfx penguin_000_offset_006_mesh_tri_1[];
+
+extern Gfx penguin_000_offset_mesh[];
+extern Gfx penguin_000_offset_002_mesh[];
+extern Gfx penguin_000_offset_003_mesh[];
+extern Gfx penguin_000_offset_004_mesh[];
+extern Gfx penguin_000_offset_005_mesh[];
+extern Gfx penguin_000_offset_006_mesh[];
+extern Gfx penguin_000_offset_006_mesh_mat_override_Half_0[];
+extern Gfx penguin_000_offset_006_mesh_mat_override_Close_1[];
+extern Gfx penguin_000_offset_006_mesh_mat_override_Angry_2[];
+extern Gfx penguin_material_revert_render_settings[];
+
