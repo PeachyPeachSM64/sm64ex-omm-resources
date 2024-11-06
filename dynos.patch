@@ -11,15 +11,19 @@ index 8b7ba466..25585ed8 100644
  endif # End of LDFLAGS
 +LDFLAGS += -lstdc++
  
+@@ -1161,3 +1162,4 @@
+ 
+ ENDIAN_BITWIDTH  := $(BUILD_DIR)/endian-and-bitwidth
++include dynos.mk
+ 
 diff --git a/data/dynos.c.h b/data/dynos.c.h
 new file mode 100644
-index 00000000..989d3e5d
+index 0000000..9dd6a1a
 --- /dev/null
 +++ b/data/dynos.c.h
-@@ -0,0 +1,14 @@
+@@ -0,0 +1,12 @@
 +#ifndef DYNOS_C_H
 +#define DYNOS_C_H
-+#ifndef __cplusplus
 +
 +#include "dynos.h"
 +
@@ -30,13 +34,12 @@ index 00000000..989d3e5d
 +void  dynos_gfx_swap_animations(void *ptr);
 +
 +#endif
-+#endif
 diff --git a/data/dynos.cpp.h b/data/dynos.cpp.h
 new file mode 100644
-index 00000000..22d079a7
+index 0000000..7e0a289
 --- /dev/null
 +++ b/data/dynos.cpp.h
-@@ -0,0 +1,699 @@
+@@ -0,0 +1,701 @@
 +#ifndef DYNOS_CPP_H
 +#define DYNOS_CPP_H
 +#ifdef __cplusplus
@@ -87,7 +90,7 @@ index 00000000..22d079a7
 +
 +//
 +// DynOS Array
-+// A vector-like array, implemented to be processed really fast, but cannot handle C++ complex classes like std::string
++// A vector-like array, implemented to be processed really fast but cannot handle C++ complex classes like std::string
 +//
 +
 +template <typename T>
@@ -731,17 +734,19 @@ index 00000000..22d079a7
 +bool DynOS_Warp_RestartLevel();
 +bool DynOS_Warp_ExitLevel(s32 aDelay);
 +bool DynOS_Warp_ToCastle(s32 aLevel);
++#if DYNOS_WARP_PARAMS
 +void DynOS_Warp_SetParam(s32 aLevel, s32 aIndex);
 +const char *DynOS_Warp_GetParamName(s32 aLevel, s32 aIndex);
++#endif
 +
 +#endif
 +#endif
 diff --git a/data/dynos.h b/data/dynos.h
 new file mode 100644
-index 00000000..7a9127f6
+index 0000000..2747b9e
 --- /dev/null
 +++ b/data/dynos.h
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,137 @@
 +#ifndef DYNOS_H
 +#define DYNOS_H
 +
@@ -761,29 +766,128 @@ index 00000000..7a9127f6
 +#include <string>
 +extern "C" {
 +#endif
++#include <PR/ultratypes.h>
++#include "model_ids.h"
 +#include "config.h"
-+#include "pc/fs/fs.h"
-+#include "audio_defines.h"
 +#undef STB_IMAGE_IMPLEMENTATION
 +#include "stb/stb_image.h"
 +#ifdef __cplusplus
 +}
 +#endif
 +
-+#define DYNOS_VERSION           "1.0"
-+#define DYNOS_EXE_FOLDER        sys_exe_path()
-+#define DYNOS_USER_FOLDER       sys_user_path()
-+#define DYNOS_RES_FOLDER        "dynos"
-+#define DYNOS_PACKS_FOLDER      DYNOS_RES_FOLDER "/packs"
-+#define DYNOS_CONFIG_FILENAME   "DynOS." DYNOS_VERSION ".config.txt"
-+#define DYNOS_AT_STARTUP		__attribute__((constructor))
-+#define DYNOS_AT_EXIT			__attribute__((destructor))
++// DynOS
++#define DYNOS_VERSION                   "1.2"
++#define DYNOS_EXE_FOLDER                sys_exe_path()
++#define DYNOS_USER_FOLDER               sys_user_path()
++#define DYNOS_RES_FOLDER                "dynos"
++#define DYNOS_PACKS_FOLDER              DYNOS_RES_FOLDER "/packs"
++#define DYNOS_CONFIG_FILENAME           "DynOS." DYNOS_VERSION ".config.txt"
++#define DYNOS_AT_STARTUP                __attribute__((constructor))
++#define DYNOS_AT_EXIT                   __attribute__((destructor))
++
++// Games
++#if defined(SUPER_MARIO_74_AND_EXTREME_EDITION) // SM74
++#define DYNOS_GAME_74_EE                1
++#define DYNOS_LEVEL_ENTRY_WARP(level)   0x0A
++#define DYNOS_LEVEL_EXIT_DISTANCE       150
++#define DYNOS_WARP_AREAS                1
++#define DYNOS_WARP_AREAS_MAX            1
++#define DYNOS_WARP_PARAMS               0
++#elif defined(SUPER_MARIO_STAR_ROAD) // Star Road
++#define DYNOS_GAME_STAR_ROAD            1
++#define DYNOS_LEVEL_ENTRY_WARP(level)   (level == LEVEL_JRB ? 0x01 : 0x0A)
++#define DYNOS_LEVEL_EXIT_DISTANCE       500
++#define DYNOS_WARP_AREAS                0
++#define DYNOS_WARP_AREAS_MAX            0
++#define DYNOS_WARP_PARAMS               0
++#elif defined(SUPER_MARIO_64_THE_GREEN_STARS) // Green Stars
++#define DYNOS_GAME_GREEN_STARS          1
++#define DYNOS_LEVEL_ENTRY_WARP(level)   0x0A
++#define DYNOS_LEVEL_EXIT_DISTANCE       150
++#define DYNOS_WARP_AREAS                0
++#define DYNOS_WARP_AREAS_MAX            0
++#define DYNOS_WARP_PARAMS               0
++#elif defined(MODEL_MARIO_SUB) // Moonshine
++#define DYNOS_GAME_MOONSHINE            1
++#define DYNOS_LEVEL_ENTRY_WARP(level)   0x0A
++#define DYNOS_LEVEL_EXIT_DISTANCE       500
++#define DYNOS_WARP_AREAS                0
++#define DYNOS_WARP_AREAS_MAX            0
++#define DYNOS_WARP_PARAMS               0
++#else // SM64
++#define DYNOS_GAME_SM64                 1
++#define DYNOS_LEVEL_ENTRY_WARP(level)   0x0A
++#define DYNOS_LEVEL_EXIT_DISTANCE       500
++#define DYNOS_WARP_AREAS                1
++#define DYNOS_WARP_AREAS_MAX            3
++#define DYNOS_WARP_PARAMS               1
++#endif
++
++// Versions
++#if !defined(COIN_FORMATION_FLAG_VERTICAL) || SUPER_MARIO_74_AND_EXTREME_EDITION || SUPER_MARIO_STAR_ROAD // ex-alo
++#undef QOL_FEATURE_Z_BUTTON_EXTRA_OPTION
++#define DYNOS_EX_ALO                    1
++#define FILE_OPTIONS_C                  "extras/options_menu.c"
++#define FILE_OPTIONS_H                  "extras/options_menu.h"
++#define FILE_BETTERCAM_H                "extras/bettercamera.h"
++#define FILE_SOUNDS_H                   "sounds.h"
++#define _DmaTable                       DmaTable
++#define _dmaTable                       dmaTable
++#define _currAddr                       currentAddr
++#define _animList                       animList
++#define _animInfo                       animInfo
++#define _animYTransDivisor              animYTransDivisor
++#define _startFrame                     startFrame
++#define _loopStart                      loopStart
++#define _loopEnd                        loopEnd
++#define _unusedBoneCount                unusedBoneCount
++#define amp_geo                         dAmpGeo
++#define bowser2_geo                     bowser_geo_no_shadow
++#define gDefaultSoundArgs               gGlobalSoundSource
++#if DYNOS_WARP_PARAMS
++#define gWdwWaterLevelSet               gWDWWaterLevelChanging
++#endif
++#if !DYNOS_GAME_74_EE
++#define gDialogBoxState                 gMenuState
++#if !DYNOS_GAME_STAR_ROAD
++#define oBehParams2ndByte               oBhvParams2ndByte
++#endif
++#endif
++#else // ex-nightly
++#define DYNOS_EX_NIGHTLY                1
++#define FILE_OPTIONS_C                  "game/options_menu.c"
++#define FILE_OPTIONS_H                  "game/options_menu.h"
++#define FILE_BETTERCAM_H                "game/bettercamera.h"
++#define FILE_SOUNDS_H                   "audio_defines.h"
++#define _DmaTable                       MarioAnimDmaRelatedThing
++#define _dmaTable                       animDmaTable
++#define _currAddr                       currentAnimAddr
++#define _animList                       animation
++#define _animInfo                       unk38
++#define _animYTransDivisor              unk02
++#define _startFrame                     unk04
++#define _loopStart                      unk06
++#define _loopEnd                        unk08
++#define _unusedBoneCount                unk0A
++extern s32 gWdwWaterLevelSet;
++#endif
++
++// Other includes
++#ifdef __cplusplus
++extern "C" {
++#endif
++#include "pc/fs/fs.h"
++#include FILE_SOUNDS_H
++#ifdef __cplusplus
++}
++#endif
++
 +
 +#endif
 \ No newline at end of file
 diff --git a/data/dynos_c.cpp b/data/dynos_c.cpp
 new file mode 100644
-index 00000000..d6009389
+index 0000000..d600938
 --- /dev/null
 +++ b/data/dynos_c.cpp
 @@ -0,0 +1,24 @@
@@ -813,7 +917,7 @@ index 00000000..d6009389
 +}
 diff --git a/data/dynos_gfx_init.cpp b/data/dynos_gfx_init.cpp
 new file mode 100644
-index 00000000..5c0ea536
+index 0000000..5c0ea53
 --- /dev/null
 +++ b/data/dynos_gfx_init.cpp
 @@ -0,0 +1,63 @@
@@ -882,10 +986,10 @@ index 00000000..5c0ea536
 +}
 diff --git a/data/dynos_gfx_load.cpp b/data/dynos_gfx_load.cpp
 new file mode 100644
-index 00000000..ba0c61d5
+index 0000000..a54dc39
 --- /dev/null
 +++ b/data/dynos_gfx_load.cpp
-@@ -0,0 +1,313 @@
+@@ -0,0 +1,315 @@
 +#include "dynos.cpp.h"
 +
 +//
@@ -1024,7 +1128,7 @@ index 00000000..ba0c61d5
 +        _Node->mData[i].n.n[0]  = ReadBytes<s8> (aFile);
 +        _Node->mData[i].n.n[1]  = ReadBytes<s8> (aFile);
 +        _Node->mData[i].n.n[2]  = ReadBytes<s8> (aFile);
-+        _Node->mData[i].n.a     = ReadBytes<u8>(aFile);
++        _Node->mData[i].n.a     = ReadBytes<u8> (aFile);
 +    }
 +
 +    // Append
@@ -1131,8 +1235,10 @@ index 00000000..ba0c61d5
 +                break;
 +            }
 +        }
-+        if (!_AnimationPtr) {
-+            sys_fatal("Animation not found: %s", _AnimationName.begin());
++        if (!_AnimationPtr) { // Not a fatal error; the model can still use the vanilla anims
++            aGfxData->mErrorCount++;
++            PrintError("ERROR: Animation not found: %s", _AnimationName.begin());
++            return;
 +        }
 +    }
 +
@@ -1201,10 +1307,10 @@ index 00000000..ba0c61d5
 +}
 diff --git a/data/dynos_gfx_read.cpp b/data/dynos_gfx_read.cpp
 new file mode 100644
-index 00000000..928bd9fe
+index 0000000..d31362f
 --- /dev/null
 +++ b/data/dynos_gfx_read.cpp
-@@ -0,0 +1,1884 @@
+@@ -0,0 +1,1888 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "geo_commands.h"
@@ -2520,7 +2626,11 @@ index 00000000..928bd9fe
 +    // Shadow constants
 +    geo_constant(SHADOW_CIRCLE_9_VERTS);
 +    geo_constant(SHADOW_CIRCLE_4_VERTS);
++#if PROPER_TREE_SHADOWS || DYNOS_GAME_STAR_ROAD
++    geo_constant(SHADOW_SPIKE);
++#else
 +    geo_constant(SHADOW_CIRCLE_4_VERTS_FLAT_UNUSED);
++#endif
 +    geo_constant(SHADOW_SQUARE_PERMANENT);
 +    geo_constant(SHADOW_SQUARE_SCALABLE);
 +    geo_constant(SHADOW_SQUARE_TOGGLABLE);
@@ -3091,10 +3201,10 @@ index 00000000..928bd9fe
 +#pragma GCC diagnostic pop
 diff --git a/data/dynos_gfx_texture.cpp b/data/dynos_gfx_texture.cpp
 new file mode 100644
-index 00000000..18b8e7f0
+index 0000000..2bd369b
 --- /dev/null
 +++ b/data/dynos_gfx_texture.cpp
-@@ -0,0 +1,285 @@
+@@ -0,0 +1,298 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "pc/gfx/gfx_rendering_api.h"
@@ -3289,6 +3399,18 @@ index 00000000..18b8e7f0
 +// Cache
 +//
 +
++#if DYNOS_EX_ALO
++struct THN {
++    struct THN *mNext;
++    const void *mAddr; // Contains the pointer to the DataNode<TexData> struct, NOT the actual texture data
++    u8 mFmt, mSiz;
++    const void *mPalette;
++    s32 mTexId;
++    u8 mCms, mCmt;
++    bool mLInf;
++    u32 checksum;
++};
++#else
 +struct THN {
 +    struct THN *mNext;
 +    const void *mAddr; // Contains the pointer to the DataNode<TexData> struct, NOT the actual texture data
@@ -3297,6 +3419,7 @@ index 00000000..18b8e7f0
 +    u8 mCms, mCmt;
 +    bool mLInf;
 +};
++#endif
 +
 +static bool DynOS_Gfx_CacheTexture(THN **aOutput, DataNode<TexData> *aNode, s32 aTile, GRAPI *aGfxRApi, THN **aHashMap, THN *aPool, u32 *aPoolPos, u32 aPoolSize) {
 +
@@ -3382,10 +3505,10 @@ index 00000000..18b8e7f0
 +}
 diff --git a/data/dynos_gfx_update.cpp b/data/dynos_gfx_update.cpp
 new file mode 100644
-index 00000000..9ee5faa4
+index 0000000..6951ff2
 --- /dev/null
 +++ b/data/dynos_gfx_update.cpp
-@@ -0,0 +1,157 @@
+@@ -0,0 +1,199 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "object_fields.h"
@@ -3399,10 +3522,10 @@ index 00000000..9ee5faa4
 +
 +// Retrieve the current Mario's animation index
 +static s32 RetrieveCurrentMarioAnimationIndex() {
-+    struct MarioAnimDmaRelatedThing *_AnimDmaTable = gMarioState->animation->animDmaTable;
++    struct _DmaTable *_AnimDmaTable = gMarioState->_animList->_dmaTable;
 +    for (s32 i = 0; i != (s32) _AnimDmaTable->count; ++i) {
 +        void *_AnimAddr = _AnimDmaTable->srcAddr + _AnimDmaTable->anim[i].offset;
-+        if (_AnimAddr == gMarioState->animation->currentAnimAddr) {
++        if (_AnimAddr == gMarioState->_animList->_currAddr) {
 +            return i;
 +        }
 +    }
@@ -3412,11 +3535,11 @@ index 00000000..9ee5faa4
 +// Retrieve the current animation index
 +// As we don't know the length of the table, let's hope that we'll always find the animation...
 +static s32 RetrieveCurrentAnimationIndex(struct Object *aObject) {
-+    if (!aObject->oAnimations || !aObject->header.gfx.unk38.curAnim) {
++    if (!aObject->oAnimations || !aObject->header.gfx._animInfo.curAnim) {
 +        return -1;
 +    }
 +    for (s32 i = 0; aObject->oAnimations[i] != NULL; ++i) {
-+        if (aObject->oAnimations[i] == aObject->header.gfx.unk38.curAnim) {
++        if (aObject->oAnimations[i] == aObject->header.gfx._animInfo.curAnim) {
 +            return i;
 +        }
 +    }
@@ -3436,7 +3559,7 @@ index 00000000..9ee5faa4
 +
 +    // Swap the current animation with the one from the Gfx data
 +    if (!pDefaultAnimation) {
-+        pDefaultAnimation = _Object->header.gfx.unk38.curAnim;
++        pDefaultAnimation = _Object->header.gfx._animInfo.curAnim;
 +
 +        // Actor index
 +        s32 _ActorIndex = DynOS_Geo_GetActorIndex(_Object->header.gfx.sharedChild->georef);
@@ -3465,20 +3588,20 @@ index 00000000..9ee5faa4
 +        const AnimData *_AnimData = (const AnimData *) _GfxData->mAnimationTable[_AnimIndex].second;
 +        if (_AnimData) {
 +            sGfxDataAnimation.flags = _AnimData->mFlags;
-+            sGfxDataAnimation.unk02 = _AnimData->mUnk02;
-+            sGfxDataAnimation.unk04 = _AnimData->mUnk04;
-+            sGfxDataAnimation.unk06 = _AnimData->mUnk06;
-+            sGfxDataAnimation.unk08 = _AnimData->mUnk08;
-+            sGfxDataAnimation.unk0A = _AnimData->mUnk0A.second;
++            sGfxDataAnimation._animYTransDivisor = _AnimData->mUnk02;
++            sGfxDataAnimation._startFrame = _AnimData->mUnk04;
++            sGfxDataAnimation._loopStart = _AnimData->mUnk06;
++            sGfxDataAnimation._loopEnd = _AnimData->mUnk08;
++            sGfxDataAnimation._unusedBoneCount = _AnimData->mUnk0A.second;
 +            sGfxDataAnimation.values = _AnimData->mValues.second.begin();
 +            sGfxDataAnimation.index = _AnimData->mIndex.second.begin();
 +            sGfxDataAnimation.length = _AnimData->mLength;
-+            _Object->header.gfx.unk38.curAnim = &sGfxDataAnimation;
++            _Object->header.gfx._animInfo.curAnim = &sGfxDataAnimation;
 +        }
 +
 +    // Restore the default animation
 +    } else {
-+        _Object->header.gfx.unk38.curAnim = pDefaultAnimation;
++        _Object->header.gfx._animInfo.curAnim = pDefaultAnimation;
 +        pDefaultAnimation = NULL;
 +    }
 +}
@@ -3486,6 +3609,40 @@ index 00000000..9ee5faa4
 +//
 +// Update models
 +//
++
++#ifdef vec3f_dif
++#undef vec3f_dif
++#endif
++#define vec3f_dif(dest, src1, src2) { \
++    dest[0] = src1[0] - src2[0]; \
++    dest[1] = src1[1] - src2[1]; \
++    dest[2] = src1[2] - src2[2]; \
++}
++
++static bool DynOS_Gfx_ShouldDisableBillboard(const GfxData *aGfxData) {
++    for (auto& _Node : aGfxData->mVertices) {
++        Vec3f pn = { 0, 0, 0 };
++        for (u32 i = 2; i < _Node->mSize; ++i) {
++            Vec3f p0; vec3f_copy(p0, _Node->mData[i - 2].v.ob);
++            Vec3f p1; vec3f_copy(p1, _Node->mData[i - 1].v.ob);
++            Vec3f p2; vec3f_copy(p2, _Node->mData[i - 0].v.ob);
++            Vec3f v0; vec3f_dif(v0, p0, p1);
++            Vec3f v1; vec3f_dif(v1, p1, p2);
++            Vec3f vn; vec3f_cross(vn, v0, v1);
++            if (memcmp(vn, gVec3fZero, sizeof(Vec3f)) != 0) { // skip zero normals
++                vec3f_normalize(vn);
++                if (memcmp(pn, gVec3fZero, sizeof(Vec3f)) != 0) { // don't compare to zero normal
++                    f32 dot = vec3f_dot(vn, pn);
++                    if (dot < 0.9f) { // Points don't form a plane -> no billboard
++                        return true;
++                    }
++                }
++                vec3f_copy(pn, vn);
++            }
++        }
++    }
++    return false;
++}
 +
 +void DynOS_Gfx_Update() {
 +    if (gObjectLists) {
@@ -3522,6 +3679,12 @@ index 00000000..9ee5faa4
 +                                    _ActorGfx->mGfxData   = _GfxData;
 +                                    _ActorGfx->mGraphNode = (GraphNode *) DynOS_Geo_GetGraphNode((*(_GfxData->mGeoLayouts.end() - 1))->mData, true);
 +                                    _ActorGfx->mGraphNode->georef = DynOS_Geo_GetActorLayout(_ActorIndex);
++                                    _ActorGfx->mGraphNode->noBillboard = DynOS_Gfx_ShouldDisableBillboard(_GfxData);
++
++                                    if (_ActorGfx->mGraphNode->noBillboard) {
++                                        printf("Billboard disabled for %s/%s\n", pDynosPacks[i]->mPath.c_str(), DynOS_Geo_GetActorName(_ActorIndex));
++                                        fflush(stdout);
++                                    }
 +                                    break;
 +                                }
 +                            }
@@ -3532,11 +3695,13 @@ index 00000000..9ee5faa4
 +                                _ActorGfx->mPackIndex = -1;
 +                                _ActorGfx->mGfxData   = NULL;
 +                                _ActorGfx->mGraphNode = (GraphNode *) DynOS_Geo_GetGraphNode(DynOS_Geo_GetActorLayout(_ActorIndex), true);
++                                _ActorGfx->mGraphNode->noBillboard = false;
 +                            }
 +                        }
 +
 +                        // Update object
 +                        _Object->header.gfx.sharedChild = _ActorGfx->mGraphNode;
++                        _Object->header.gfx.node.flags &= ~((GRAPH_RENDER_BILLBOARD | GRAPH_RENDER_CYLBOARD) * _ActorGfx->mGraphNode->noBillboard);
 +                    }
 +                }
 +            }
@@ -3545,7 +3710,7 @@ index 00000000..9ee5faa4
 +}
 diff --git a/data/dynos_gfx_write.cpp b/data/dynos_gfx_write.cpp
 new file mode 100644
-index 00000000..07ddc253
+index 0000000..07ddc25
 --- /dev/null
 +++ b/data/dynos_gfx_write.cpp
 @@ -0,0 +1,318 @@
@@ -3869,10 +4034,10 @@ index 00000000..07ddc253
 +}
 diff --git a/data/dynos_level.cpp b/data/dynos_level.cpp
 new file mode 100644
-index 00000000..f1a0b8a8
+index 0000000..a7d2cd0
 --- /dev/null
 +++ b/data/dynos_level.cpp
-@@ -0,0 +1,826 @@
+@@ -0,0 +1,909 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "game/segment2.h"
@@ -4126,7 +4291,14 @@ index 00000000..f1a0b8a8
 +    } else if (_Course >= COURSE_CAKE_END) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_CASTLE);
 +    } else {
++#if DYNOS_GAME_74_EE
++        extern DynosOption *sCurrentOpt;
++        s32 _Area = (sCurrentOpt && sCurrentOpt->mParent && sCurrentOpt->mParent->mName == "dynos_warp_to_castle_submenu" ? DynOS_Opt_GetValue("dynos_warp_castle_area") : DynOS_Opt_GetValue("dynos_warp_area")) + 1;
++        const u8 **_CourseNameTable = (const u8 **) (_Area == 2 ? seg2_course_name_table_EE : seg2_course_name_table);
++        const u8 *_CourseName = _CourseNameTable[_Course - COURSE_BOB] + 3;
++#else
 +        const u8 *_CourseName = ((const u8 **) seg2_course_name_table)[_Course - COURSE_BOB] + 3;
++#endif
 +        memcpy(sBuffer, _CourseName, DynOS_String_Length(_CourseName));
 +    }
 +
@@ -4161,18 +4333,26 @@ index 00000000..f1a0b8a8
 +    // Star name
 +    if (_Course < COURSE_BOB) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_ONE_SECRET_STAR);
++#if DYNOS_GAME_SM64
 +    } else if (aLevel == LEVEL_BITDW) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_RED_COINS_STAR);
 +    } else if (aLevel == LEVEL_BITFS) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_RED_COINS_STAR);
 +    } else if (aLevel == LEVEL_BITS) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_RED_COINS_STAR);
++#endif
 +    } else if (_Course > COURSE_STAGES_MAX) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_EMPTY);
 +    } else if (aAct >= 7) {
 +        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_100_COINS_STAR);
 +    } else {
++#if DYNOS_GAME_74_EE
++        s32 _Area = DynOS_Opt_GetValue("dynos_warp_area") + 1;
++        const u8 **_ActNameTable = (const u8 **) (_Area == 2 ? seg2_act_name_table_EE : seg2_act_name_table);
++        const u8 *_ActName = _ActNameTable[(_Course - COURSE_BOB) * 6 + (aAct - 1)];
++#else
 +        const u8 *_ActName = ((const u8 **) seg2_act_name_table)[(_Course - COURSE_BOB) * 6 + (aAct - 1)];
++#endif
 +        memcpy(sBuffer, _ActName, DynOS_String_Length(_ActName));
 +    }
 +
@@ -4196,7 +4376,40 @@ index 00000000..f1a0b8a8
 +
 +const u8 *DynOS_Level_GetAreaName(s32 aLevel, s32 aArea, bool aDecaps) {
 +    DynOS_Level_Init();
-+    static const char *sAreaNamesPerLevel[][4] = {
++    static const char *sAreaNamesPerLevel[][DYNOS_WARP_AREAS_MAX + 1] = {
++#if DYNOS_GAME_74_EE
++        { "NORMAL EDITION", "EXTREME EDITION" },
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* BoB */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* WF */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* JRB */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* CCM */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* BBH */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* HMC */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* LLL */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* SSL */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* DDD */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* SL */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* WDW */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* TTM */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* THI */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* TTC */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* RR */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* BITDW */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* Bowser 1 */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* BITFS */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* Bowser 2 */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* BITS */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* Bowser 3 */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* PSS */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* TOTWC */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* COTMC */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* VCUTM */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* WMOTR */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* SA */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* Castle grounds */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* Castle inside */
++        { "NORMAL EDITION", "EXTREME EDITION" }, /* Castle courtyard */
++#elif DYNOS_GAME_SM64
 +        { "", "", "", "" },
 +        { "MAIN AREA", "NOT AVAILABLE", "NOT AVAILABLE", "NOT AVAILABLE" }, /* BoB */
 +        { "MAIN AREA", "NOT AVAILABLE", "NOT AVAILABLE", "NOT AVAILABLE" }, /* WF */
@@ -4228,43 +4441,76 @@ index 00000000..f1a0b8a8
 +        { "MAIN AREA", "NOT AVAILABLE", "NOT AVAILABLE", "NOT AVAILABLE" }, /* Castle grounds */
 +        { "FIRST FLOOR", "SECOND FLOOR", "BASEMENT", "NOT AVAILABLE" }, /* Castle inside */
 +        { "MAIN AREA", "NOT AVAILABLE", "NOT AVAILABLE", "NOT AVAILABLE" }, /* Castle courtyard */
++#else
++        { "" },
++        { "" }, /* BoB */
++        { "" }, /* WF */
++        { "" }, /* JRB */
++        { "" }, /* CCM */
++        { "" }, /* BBH */
++        { "" }, /* HMC */
++        { "" }, /* LLL */
++        { "" }, /* SSL */
++        { "" }, /* DDD */
++        { "" }, /* SL */
++        { "" }, /* WDW */
++        { "" }, /* TTM */
++        { "" }, /* THI */
++        { "" }, /* TTC */
++        { "" }, /* RR */
++        { "" }, /* BITDW */
++        { "" }, /* Bowser 1 */
++        { "" }, /* BITFS */
++        { "" }, /* Bowser 2 */
++        { "" }, /* BITS */
++        { "" }, /* Bowser 3 */
++        { "" }, /* PSS */
++        { "" }, /* TOTWC */
++        { "" }, /* COTMC */
++        { "" }, /* VCUTM */
++        { "" }, /* WMOTR */
++        { "" }, /* SA */
++        { "" }, /* Castle grounds */
++        { "" }, /* Castle inside */
++        { "" }, /* Castle courtyard */
++#endif
 +    };
 +    static u8 sBuffer[256];
 +    memset(sBuffer, 0xFF, 256);
 +
 +    // Area name
 +    switch (aLevel) {
-+        case LEVEL_BOB: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[1][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_WF: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[2][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_JRB: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[3][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_CCM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[4][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BBH: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[5][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_HMC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[6][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_LLL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[7][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_SSL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[8][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_DDD: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[9][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_SL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[10][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_WDW: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[11][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_TTM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[12][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_THI: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[13][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_TTC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[14][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_RR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[15][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BITDW: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[16][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BOWSER_1: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[17][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BITFS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[18][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BOWSER_2: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[19][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BITS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[20][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_BOWSER_3: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[21][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_PSS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[22][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_TOTWC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[23][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_COTMC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[24][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_VCUTM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[25][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_WMOTR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[26][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_SA: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[27][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_CASTLE_GROUNDS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[28][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_CASTLE: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[29][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        case LEVEL_CASTLE_COURTYARD: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[30][MIN(MAX(aArea - 1, 0), 3)]); break;
-+        default: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[0][MIN(MAX(aArea - 1, 0), 3)]); break;
++        case LEVEL_BOB: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[1][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_WF: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[2][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_JRB: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[3][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_CCM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[4][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BBH: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[5][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_HMC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[6][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_LLL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[7][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_SSL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[8][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_DDD: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[9][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_SL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[10][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_WDW: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[11][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_TTM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[12][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_THI: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[13][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_TTC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[14][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_RR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[15][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BITDW: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[16][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BOWSER_1: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[17][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BITFS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[18][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BOWSER_2: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[19][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BITS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[20][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_BOWSER_3: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[21][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_PSS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[22][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_TOTWC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[23][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_COTMC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[24][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_VCUTM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[25][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_WMOTR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[26][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_SA: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[27][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_CASTLE_GROUNDS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[28][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_CASTLE: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[29][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        case LEVEL_CASTLE_COURTYARD: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[30][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
++        default: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[0][MIN(MAX(aArea - 1, 0), DYNOS_WARP_AREAS_MAX)]); break;
 +    }
 +
 +    // Decaps
@@ -4688,8 +4934,10 @@ index 00000000..f1a0b8a8
 +
 +s16 *DynOS_Level_GetWarpEntry(s32 aLevel, s32 aArea) {
 +    DynOS_Level_Init();
++#if DYNOS_GAME_SM64
 +    if (aLevel == LEVEL_TTM && aArea > 2) return NULL;
-+    return DynOS_Level_GetWarp(aLevel, aArea, 0x0A);
++#endif
++    return DynOS_Level_GetWarp(aLevel, aArea, DYNOS_LEVEL_ENTRY_WARP(aLevel));
 +}
 +
 +s16 *DynOS_Level_GetWarpDeath(s32 aLevel, s32 aArea) {
@@ -4701,17 +4949,17 @@ index 00000000..f1a0b8a8
 +
 diff --git a/data/dynos_main.cpp b/data/dynos_main.cpp
 new file mode 100644
-index 00000000..0d7da17c
+index 0000000..3a274fd
 --- /dev/null
 +++ b/data/dynos_main.cpp
-@@ -0,0 +1,58 @@
+@@ -0,0 +1,60 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "sm64.h"
 +#include "level_commands.h"
 +#include "game/level_update.h"
-+#include "game/options_menu.h"
 +#include "game/object_list_processor.h"
++#include FILE_OPTIONS_H
 +extern s16 gMenuMode;
 +extern s8 gDialogBoxState;
 +}
@@ -4743,7 +4991,9 @@ index 00000000..0d7da17c
 +static bool sDynosIsLevelEntry = false;
 +void DynOS_UpdateOpt(void *aPad) {
 +    if (sDynosIsLevelEntry) {
++#if DYNOS_WARP_PARAMS
 +        DynOS_Warp_SetParam(gCurrLevelNum, -1);
++#endif
 +        sDynosIsLevelEntry = false;
 +    }
 +    DynOS_Opt_Update((OSContPad *) aPad);
@@ -4765,10 +5015,10 @@ index 00000000..0d7da17c
 +}
 diff --git a/data/dynos_misc.cpp b/data/dynos_misc.cpp
 new file mode 100644
-index 00000000..02ca470a
+index 0000000..1ef68ff
 --- /dev/null
 +++ b/data/dynos_misc.cpp
-@@ -0,0 +1,474 @@
+@@ -0,0 +1,500 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "object_fields.h"
@@ -4908,11 +5158,11 @@ index 00000000..02ca470a
 +static void *geo_rotate_3d_coin(s32 callContext, void *node, UNUSED void *c) {
 +    if (callContext == GEO_CONTEXT_RENDER) {
 +        struct Object *obj = (struct Object *) gCurGraphNodeObject;
++        obj->oFaceAnglePitch = obj->oFaceAngleRoll = 0;
++        obj->oMoveAnglePitch = obj->oMoveAngleRoll = 0;
 +        struct GraphNodeRotation *rotNode = (struct GraphNodeRotation *) ((struct GraphNode *) node)->next;
-+        rotNode->rotation[0] = 0;
-+        rotNode->rotation[1] = obj->oAnimState;
-+        rotNode->rotation[2] = 0;
-+        obj->oAnimState += 0x0800;
++        vec3s_set(gCurGraphNodeObject->angle, 0, 0, 0);
++        vec3s_set(rotNode->rotation, 0, obj->oTimer * 0x800, 0);
 +    }
 +    return NULL;
 +}
@@ -5187,6 +5437,7 @@ index 00000000..02ca470a
 +    return -1;
 +}
 +
++#ifndef USE_SYSTEM_MALLOC
 +static void _RelocateGraphNodePointers(struct GraphNode *aHead, u64 aOffset) {
 +    struct GraphNode *_Node = aHead;
 +    do {
@@ -5206,6 +5457,7 @@ index 00000000..02ca470a
 +        _Node = _Node->next;
 +    } while (_Node != aHead);
 +}
++#endif
 +
 +void *DynOS_Geo_GetGraphNode(const void *aGeoLayout, bool aKeepInMemory) {
 +    static Array<Pair<void *, void *>> sLoadedGraphNodes;
@@ -5216,13 +5468,36 @@ index 00000000..02ca470a
 +        }
 +    }
 +
++#ifdef USE_SYSTEM_MALLOC // this is garbage and prone to crashes, but it cannot be turned off
++    // Use the dynamically allocated system memory pool
++    struct _AllocOnlyPool {
++        void *lastBlock;
++        u32 lastBlockSize;
++        u32 lastBlockNextPos;
++    };
++    struct _AllocOnlyPool *_Pool = (struct _AllocOnlyPool *) main_pool_alloc(sizeof(struct _AllocOnlyPool), NULL);
++    _Pool->lastBlock = NULL;
++    _Pool->lastBlockSize = 0;
++    _Pool->lastBlockNextPos = 0;
++    void *_Processed = (void *) process_geo_layout((struct AllocOnlyPool *) _Pool, (void *) aGeoLayout);
++
++    // Return the loaded graph node
++    if (_Processed) {
++
++        // Add it to loaded graph nodes
++        if (aKeepInMemory) {
++            sLoadedGraphNodes.Add({ (void *) aGeoLayout, (void *) _Processed });
++        }
++        return _Processed;
++    }
++#else
 +    // Process the geo layout on a large pool of memory (16 MB)
 +    struct AllocOnlyPool *_Pool = (struct AllocOnlyPool *) calloc(1, 0x1000000);
-+    _Pool->totalSpace = 0x1000000    - sizeof(struct AllocOnlyPool);
-+    _Pool->usedSpace  = 0;
-+    _Pool->startPtr   = (u8 *) _Pool + sizeof(struct AllocOnlyPool);
-+    _Pool->freePtr    = (u8 *) _Pool + sizeof(struct AllocOnlyPool);
-+    void *_Processed  = process_geo_layout(_Pool, (void *) aGeoLayout);
++    _Pool->totalSpace = 0x1000000 - sizeof(struct AllocOnlyPool);
++    _Pool->usedSpace = 0;
++    _Pool->startPtr = (u8 *) _Pool + sizeof(struct AllocOnlyPool);
++    _Pool->freePtr = (u8 *) _Pool + sizeof(struct AllocOnlyPool);
++    void *_Processed = (void *) process_geo_layout((struct AllocOnlyPool *) _Pool, (void *) aGeoLayout);
 +
 +    // Copy the graph node data to the minimum amount of memory needed
 +    if (_Processed && _Pool->usedSpace != 0) {
@@ -5241,14 +5516,15 @@ index 00000000..02ca470a
 +        return _Node;
 +    }
 +    free(_Pool);
++#endif
 +    return NULL;
 +}
 diff --git a/data/dynos_opt.cpp b/data/dynos_opt.cpp
 new file mode 100644
-index 00000000..8282bbdf
+index 0000000..60ed4c7
 --- /dev/null
 +++ b/data/dynos_opt.cpp
-@@ -0,0 +1,740 @@
+@@ -0,0 +1,765 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "pc/configfile.h"
@@ -5256,7 +5532,7 @@ index 00000000..8282bbdf
 +#include "game/game_init.h"
 +#include "pc/controller/controller_keyboard.h"
 +#ifdef BETTERCAMERA
-+#include "game/bettercamera.h"
++#include FILE_BETTERCAM_H
 +#endif
 +}
 +
@@ -5264,11 +5540,11 @@ index 00000000..8282bbdf
 +// Data
 +//
 +
-+static DynosOption *sPrevOpt     = NULL;
-+static DynosOption *sDynosMenu   = NULL;
-+static DynosOption *sOptionsMenu = NULL;
-+static DynosOption *sCurrentMenu = NULL;
-+static DynosOption *sCurrentOpt  = NULL;
++DynosOption *sPrevOpt     = NULL;
++DynosOption *sDynosMenu   = NULL;
++DynosOption *sOptionsMenu = NULL;
++DynosOption *sCurrentMenu = NULL;
++DynosOption *sCurrentOpt  = NULL;
 +extern s32 sBindingState;
 +
 +//
@@ -5550,11 +5826,11 @@ index 00000000..8282bbdf
 +
 +        case DOPT_CHOICEAREA:
 +            if (input == INPUT_LEFT) {
-+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 3) % (4);
++                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + DYNOS_WARP_AREAS_MAX) % (DYNOS_WARP_AREAS_MAX + 1);
 +                return RESULT_OK;
 +            }
 +            if (input == INPUT_RIGHT || input == INPUT_A) {
-+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (4);
++                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (DYNOS_WARP_AREAS_MAX + 1);
 +                return RESULT_OK;
 +            }
 +            break;
@@ -5648,7 +5924,9 @@ index 00000000..8282bbdf
 +            play_sound(SOUND_DYNOS_SAVED, gDefaultSoundArgs);
 +        }
 +#ifdef BETTERCAMERA
++#ifndef DYNOS_EX_ALO
 +        newcam_init_settings();
++#endif
 +#endif
 +        controller_reconfigure();
 +        configfile_save(configfile_name());
@@ -5657,6 +5935,11 @@ index 00000000..8282bbdf
 +    }
 +}
 +
++#ifdef absf
++#undef absf
++#endif
++#define absf(x) ((x) < 0 ? -(x) : (x))
++
 +static void DynOS_Opt_ProcessInputs() {
 +    static s32 sStickTimer = 0;
 +    static bool sPrevStick = 0;
@@ -5664,7 +5947,7 @@ index 00000000..8282bbdf
 +    // Stick values
 +    f32 _StickX = gPlayer1Controller->stickX;
 +    f32 _StickY = gPlayer1Controller->stickY;
-+    if (absx(_StickX) > 60 || absx(_StickY) > 60) {
++    if (absf(_StickX) > 60 || absf(_StickY) > 60) {
 +        if (sStickTimer == 0) {
 +            sStickTimer = (sPrevStick ? 2 : 9);
 +        } else {
@@ -5806,6 +6089,7 @@ index 00000000..8282bbdf
 +    *aOpt->mChoice.mIndex = 0;
 +    }
 +
++#if DYNOS_WARP_AREAS
 +    // Area select
 +    {
 +    DynosOption *aOpt     = DynOS_Opt_NewOption("dynos_warp_area", "", "Area Select", "");
@@ -5813,6 +6097,7 @@ index 00000000..8282bbdf
 +    aOpt->mChoice.mIndex  = New<s32>();
 +    *aOpt->mChoice.mIndex = 0;
 +    }
++#endif
 +
 +    // Star select
 +    {
@@ -5822,6 +6107,7 @@ index 00000000..8282bbdf
 +    *aOpt->mChoice.mIndex = 0;
 +    }
 +
++#if DYNOS_WARP_PARAMS
 +    // Param select
 +    {
 +    DynosOption *aOpt = DynOS_Opt_NewOption("dynos_warp_param", "", "Param Select", "");
@@ -5829,6 +6115,7 @@ index 00000000..8282bbdf
 +    aOpt->mChoice.mIndex  = New<s32>();
 +    *aOpt->mChoice.mIndex = 0;
 +    }
++#endif
 +
 +    DynOS_Opt_CreateButton("dynos_warp_to_level", "Warp", "DynOS_Opt_WarpToLevel");
 +    DynOS_Opt_EndSubMenu();
@@ -5844,6 +6131,16 @@ index 00000000..8282bbdf
 +    aOpt->mChoice.mIndex  = New<s32>();
 +    *aOpt->mChoice.mIndex = 0;
 +    }
++
++#if DYNOS_GAME_74_EE && DYNOS_WARP_AREAS
++    // Area select
++    {
++    DynosOption *aOpt     = DynOS_Opt_NewOption("dynos_warp_castle_area", "", "Area Select", "");
++    aOpt->mType           = DOPT_CHOICEAREA;
++    aOpt->mChoice.mIndex  = New<s32>();
++    *aOpt->mChoice.mIndex = 0;
++    }
++#endif
 +
 +    DynOS_Opt_CreateButton("dynos_warp_to_castle", "Warp", "DynOS_Opt_WarpToCastle");
 +    DynOS_Opt_EndSubMenu();
@@ -5957,7 +6254,11 @@ index 00000000..8282bbdf
 +
 +static bool DynOS_Opt_WarpToLevel(UNUSED const char *optName) {
 +    s32 _Level = DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")];
++#if DYNOS_WARP_AREAS
 +    s32 _Area = DynOS_Opt_GetValue("dynos_warp_area") + 1;
++#else
++    s32 _Area = 1;
++#endif
 +    s32 _Act = DynOS_Opt_GetValue("dynos_warp_act") + 1;
 +    return DynOS_Warp_ToLevel(_Level, _Area, _Act);
 +}
@@ -5991,7 +6292,7 @@ index 00000000..8282bbdf
 +#undef DYNOS_DEFINE_ACTION
 diff --git a/data/dynos_opt_config.cpp b/data/dynos_opt_config.cpp
 new file mode 100644
-index 00000000..ed26b07c
+index 0000000..ed26b07
 --- /dev/null
 +++ b/data/dynos_opt_config.cpp
 @@ -0,0 +1,62 @@
@@ -6059,7 +6360,7 @@ index 00000000..ed26b07c
 +}
 diff --git a/data/dynos_opt_cont.cpp b/data/dynos_opt_cont.cpp
 new file mode 100644
-index 00000000..f88f57dc
+index 0000000..f88f57d
 --- /dev/null
 +++ b/data/dynos_opt_cont.cpp
 @@ -0,0 +1,70 @@
@@ -6135,10 +6436,10 @@ index 00000000..f88f57dc
 +}
 diff --git a/data/dynos_opt_render.cpp b/data/dynos_opt_render.cpp
 new file mode 100644
-index 00000000..d182e5e3
+index 0000000..2f533fd
 --- /dev/null
 +++ b/data/dynos_opt_render.cpp
-@@ -0,0 +1,309 @@
+@@ -0,0 +1,313 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "course_table.h"
@@ -6233,7 +6534,11 @@ index 00000000..d182e5e3
 +#define get_hex_number(n)   { "", DynOS_String_Convert(IntToString("%04X", n), false) }
 +#define get_level(opt)      { "", DynOS_Level_GetName(DynOS_Level_GetList()[*opt->mChoice.mIndex], true, true) }
 +#define get_star(opt)       { "", DynOS_Level_GetActName(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex + 1, true, true) }
++#if DYNOS_WARP_PARAMS
 +#define get_param(opt)      { DynOS_Warp_GetParamName(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex), NULL }
++#else
++#define get_param(opt)      { "", NULL }
++#endif
 +
 +static s32 GetCurrentOptionCount(DynosOption *aCurrentOpt) {
 +    s32 _Count = 0;
@@ -6450,7 +6755,7 @@ index 00000000..d182e5e3
 +}
 diff --git a/data/dynos_opt_vanilla.cpp b/data/dynos_opt_vanilla.cpp
 new file mode 100644
-index 00000000..7d45582f
+index 0000000..7d45582
 --- /dev/null
 +++ b/data/dynos_opt_vanilla.cpp
 @@ -0,0 +1,155 @@
@@ -6611,10 +6916,11 @@ index 00000000..7d45582f
 +}
 diff --git a/data/dynos_opt_vanilla_c.c b/data/dynos_opt_vanilla_c.c
 new file mode 100644
-index 00000000..53eb01fb
+index 0000000..ec882c9
 --- /dev/null
 +++ b/data/dynos_opt_vanilla_c.c
-@@ -0,0 +1,70 @@
+@@ -0,0 +1,71 @@
++#include "dynos.h"
 +
 +// Not my problem
 +#pragma GCC diagnostic push
@@ -6628,7 +6934,7 @@ index 00000000..53eb01fb
 +#define optmenu_check_buttons optmenu_check_buttons_unused
 +#define optmenu_open optmenu_open_unused
 +#define DYNOS_INL
-+#include "game/options_menu.c"
++#include FILE_OPTIONS_C
 +#undef DYNOS_INL
 +#undef optmenu_toggle
 +#undef optmenu_draw
@@ -6687,10 +6993,10 @@ index 00000000..53eb01fb
 +}
 diff --git a/data/dynos_warps.cpp b/data/dynos_warps.cpp
 new file mode 100644
-index 00000000..ca2289dd
+index 0000000..7a0635e
 --- /dev/null
 +++ b/data/dynos_warps.cpp
-@@ -0,0 +1,465 @@
+@@ -0,0 +1,481 @@
 +#include "dynos.cpp.h"
 +extern "C" {
 +#include "sm64.h"
@@ -6703,10 +7009,9 @@ index 00000000..ca2289dd
 +#include "game/level_update.h"
 +#include "game/sound_init.h"
 +#include "game/object_list_processor.h"
-+#include "game/options_menu.h"
++#include FILE_OPTIONS_H
 +extern s8 gDialogBoxState;
 +extern s16 gMenuMode;
-+extern s32 gWdwWaterLevelSet;
 +extern u8 sSpawnTypeFromWarpBhv[];
 +extern void set_mario_initial_action(struct MarioState *, u32, u32);
 +extern void set_play_mode(s16);
@@ -6740,7 +7045,11 @@ index 00000000..ca2289dd
 +}
 +
 +bool DynOS_Warp_RestartLevel() {
++#if DYNOS_GAME_74_EE
++    return DynOS_Warp_ToLevel(gCurrLevelNum, gCurrAreaIndex, gCurrActNum);
++#else
 +    return DynOS_Warp_ToLevel(gCurrLevelNum, 1, gCurrActNum);
++#endif
 +}
 +
 +//
@@ -6748,7 +7057,7 @@ index 00000000..ca2289dd
 +//
 +
 +bool DynOS_Warp_ExitLevel(s32 aDelay) {
-+    if (DynOS_Level_GetCourse(gCurrLevelNum) == COURSE_NONE) {
++    if (DynOS_Level_GetCourse(gCurrLevelNum) == COURSE_NONE || DynOS_Level_GetWarpDeath(gCurrLevelNum, gCurrAreaIndex) == NULL) {
 +        return false;
 +    }
 +
@@ -6780,7 +7089,7 @@ index 00000000..ca2289dd
 +}
 +
 +bool DynOS_Warp_ToCastle(s32 aLevel) {
-+    if (DynOS_Level_GetCourse(aLevel) == COURSE_NONE) {
++    if (DynOS_Level_GetCourse(aLevel) == COURSE_NONE || DynOS_Level_GetWarpDeath(aLevel, gCurrAreaIndex) == NULL) {
 +        return false;
 +    }
 +
@@ -6804,9 +7113,16 @@ index 00000000..ca2289dd
 +    // Change play mode to avoid getting stuck on the pause menu
 +    set_play_mode(0);
 +    sDynosExitLevelNum = aLevel;
++#if DYNOS_GAME_74_EE
++    s32 _Area = DynOS_Opt_GetValue("dynos_warp_castle_area") + 1;
++    sDynosExitAreaNum = _Area;
++#else
 +    sDynosExitAreaNum = 1;
++#endif
 +    return true;
 +}
++
++#if DYNOS_WARP_PARAMS
 +
 +//
 +// Params
@@ -6881,6 +7197,8 @@ index 00000000..ca2289dd
 +    }
 +}
 +
++#endif
++
 +//
 +// Update
 +//
@@ -6929,7 +7247,9 @@ index 00000000..ca2289dd
 +        gCurrActNum = MAX(1, sDynosWarpActNum * (gCurrCourseNum <= COURSE_STAGES_MAX));
 +        gDialogCourseActNum = gCurrActNum;
 +        gCurrAreaIndex = sDynosWarpAreaNum;
++#if DYNOS_WARP_PARAMS
 +        DynOS_Warp_SetParam(gCurrLevelNum, DynOS_Opt_GetValue("dynos_warp_param"));
++#endif
 +        sDynosWarpTargetArea = gCurrAreaIndex;
 +
 +        // Set up new level script
@@ -6963,7 +7283,9 @@ index 00000000..ca2289dd
 +            gMarioSpawnInfo->areaIndex = gCurrAreaIndex;
 +            init_mario();
 +            set_mario_initial_action(gMarioState, sDynosWarpSpawnType, 0);
++#if DYNOS_WARP_PARAMS
 +            DynOS_Warp_SetParam(gCurrLevelNum, DynOS_Opt_GetValue("dynos_warp_param"));
++#endif
 +
 +            // Init transition
 +            reset_camera(gCurrentArea->camera);
@@ -7096,7 +7418,7 @@ index 00000000..ca2289dd
 +            s16 _TargetPosZ = sDynosExitTargetWarp[5];
 +            s16 _TargetFYaw = sDynosExitTargetWarp[6];
 +            s16 _TargetDYaw = 0;
-+            f32 _TargetDist = 500.f;
++            f32 _TargetDist = DYNOS_LEVEL_EXIT_DISTANCE;
 +            DynOS_Warp_FindExitPosition(_TargetPosX, _TargetPosY, _TargetPosZ, _TargetFYaw + _TargetDYaw, _TargetDist);
 +
 +            // Init Mario
@@ -7158,10 +7480,10 @@ index 00000000..ca2289dd
 +}
 diff --git a/dynos.mk b/dynos.mk
 new file mode 100644
-index 00000000..349e3128
+index 0000000..c47837a
 --- /dev/null
 +++ b/dynos.mk
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,17 @@
 +# ----------------------
 +# Dynamic Options System
 +# ----------------------
@@ -7179,30 +7501,20 @@ index 00000000..349e3128
 +INCLUDE_CFLAGS += -DDYNOS
 +
 +$(BUILD_DIR)/data/dynos_opt_vanilla_c.o: $(BUILD_DIR)/include/text_strings.h
-+
-+# ----
-+# Coop
-+# ----
-+
-+SM64EX_COOP := $(or $(and $(wildcard src/pc/network/network.h),1),0)
-+ifeq ($(SM64EX_COOP),1)
-+INCLUDE_CFLAGS += -DDYNOS_COOP
-+endif
-+
 diff --git a/include/types.h b/include/types.h
 index b3dc27e2..61e99fe4 100644
 --- a/include/types.h
 +++ b/include/types.h
-@@ -7,4 +7,5 @@
- #include <ultra64.h>
- #include "macros.h"
+@@ -1,3 +1,4 @@
+ #ifndef _SM64_TYPES_H_
+ #define _SM64_TYPES_H_
 +#include "data/dynos.c.h"
  
- 
-@@ -107,4 +108,5 @@ struct GraphNode
+@@ -141,4 +142,6 @@ struct GraphNode {
      /*0x0C*/ struct GraphNode *parent;
      /*0x10*/ struct GraphNode *children;
 +    /*0x14*/ const void *georef;
++    /*0x18*/ bool noBillboard;
  };
  
 diff --git a/src/engine/geo_layout.c b/src/engine/geo_layout.c
@@ -7212,8 +7524,7 @@ index d071d1a6..ecbc704a 100644
 @@ -791,5 +791,8 @@ struct GraphNode *process_geo_layout(struct AllocOnlyPool *pool, void *segptr) {
          GeoLayoutJumpTable[gGeoLayoutCommand[0x00]]();
      }
--
-+    
+ 
 +    if (gCurRootGraphNode) {
 +        gCurRootGraphNode->georef = (const void *) segptr;
 +    }
@@ -7232,6 +7543,19 @@ index b623c7f1..b1ecaef5 100644
 +        if (dynosNextCmd) sCurrentCmd = dynosNextCmd;
      }
  
+diff --git a/src/extras/options_menu.c b/src/extras/options_menu.c
+index c4c4d60..d551f25 100644
+--- a/src/extras/options_menu.c
++++ b/src/extras/options_menu.c
+@@ -1,3 +1,4 @@
+ #ifdef EXT_OPTIONS_MENU
++#ifdef DYNOS_INL
+ 
+ #include "sm64.h"
+@@ -621,2 +622,3 @@ void optmenu_check_buttons(void) {
+ 
+ #endif // EXT_OPTIONS_MENU
++#endif
 diff --git a/src/game/area.c b/src/game/area.c
 index ba7768a4..4323eac6 100644
 --- a/src/game/area.c
@@ -7266,12 +7590,31 @@ index 58d7d616..1ea79fb5 100644
 +
      if (!(save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_2 | SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR))) {
          obj_mark_for_deletion(o);
+@@ -2,4 +2,19 @@
+ 
+ void bhv_ddd_pole_init(void) {
++    extern s32 gDDDPoles;
++
++    // Always spawn
++    if (gDDDPoles == 1) {
++        o->hitboxDownOffset = 100.0f;
++        o->oDDDPoleMaxOffset = 100.0f * o->oBehParams2ndByte;
++        return;
++    }
++
++    // Never spawn
++    if (gDDDPoles == 0) {
++        obj_mark_for_deletion(o);
++        return;
++    }
++
+     if (!(save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_2 | SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR))) {
+         obj_mark_for_deletion(o);
 diff --git a/src/game/behaviors/ddd_sub.inc.c b/src/game/behaviors/ddd_sub.inc.c
 index d8479c65..cc7227c0 100644
 --- a/src/game/behaviors/ddd_sub.inc.c
 +++ b/src/game/behaviors/ddd_sub.inc.c
-@@ -2,4 +2,17 @@
- 
+@@ -2,3 +2,16 @@
  void bhv_bowsers_sub_loop(void) {
 +    extern s32 gDDDBowsersSub;
 +
@@ -7288,24 +7631,34 @@ index d8479c65..cc7227c0 100644
 +
      if (save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_2 | SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR))
          obj_mark_for_deletion(o);
+@@ -2,4 +2,17 @@
+ 
+ void bhv_bowsers_sub_loop(void) {
++    extern s32 gDDDBowsersSub;
++
++    // Always spawn
++    if (gDDDBowsersSub == 1) {
++        return;
++    }
++
++    // Never spawn
++    if (gDDDBowsersSub == 0) {
++        obj_mark_for_deletion(o);
++        return;
++    }
++
+     if (save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_2 | SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR)) {
+         obj_mark_for_deletion(o);
 diff --git a/src/game/game_init.c b/src/game/game_init.c
 index c2df4510..795320ba 100644
 --- a/src/game/game_init.c
 +++ b/src/game/game_init.c
-@@ -385,7 +385,4 @@ void adjust_analog_stick(struct Controller *controller) {
- // input list until it is complete. called every frame.
- void run_demo_inputs(void) {
--    // eliminate the unused bits.
--    gControllers[0].controllerData->button &= VALID_BUTTONS;
--
-     /*
-         Check if a demo inputs list
-@@ -456,4 +453,5 @@ void read_controller_inputs(void) {
-         osRecvMesg(&gSIEventMesgQueue, &D_80339BEC, OS_MESG_BLOCK);
-         osContGetReadData(&gControllerPads[0]);
-+        dynos_update_opt((void *) &gControllerPads[0]);
+@@ -450,4 +451,4 @@
      }
-     run_demo_inputs();
++    dynos_update_opt((void *) &gControllerPads[0]);
+-    run_demo_inputs();
+ 
+     for (i = 0; i < 2; i++) {
 diff --git a/src/game/object_helpers.c b/src/game/object_helpers.c
 index 22b45b32..4586cd93 100644
 --- a/src/game/object_helpers.c
@@ -7350,6 +7703,22 @@ index d5bf5778..c9b5dbb4 100644
 +            dynos_gfx_swap_animations(node->objNode);
          }
  
+@@ -1234,5 +1234,7 @@ void geo_process_object(struct Object *node) {
+         // FIXME: correct types
+         if (node->header.gfx.animInfo.curAnim != NULL) {
++            dynos_gfx_swap_animations(node);
+             geo_set_animation_globals(&node->header.gfx.animInfo, (node->header.gfx.node.flags & GRAPH_RENDER_HAS_ANIMATION) != 0);
++            dynos_gfx_swap_animations(node);
+         }
+ 
+@@ -1336,5 +1338,7 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
+         gCurGraphNodeHeldObject = (void *) node;
+         if (node->objNode->header.gfx.animInfo.curAnim != NULL) {
++            dynos_gfx_swap_animations(node->objNode);
+             geo_set_animation_globals(&node->objNode->header.gfx.animInfo, (node->objNode->header.gfx.node.flags & GRAPH_RENDER_HAS_ANIMATION) != 0);
++            dynos_gfx_swap_animations(node->objNode);
+         }
+ 
 diff --git a/src/pc/gfx/gfx_pc.c b/src/pc/gfx/gfx_pc.c
 index a78f2ffd..b1ccc01d 100644
 --- a/src/pc/gfx/gfx_pc.c
@@ -7382,3 +7751,10 @@ index a78f2ffd..b1ccc01d 100644
 +    if (dynos_gfx_import_texture((void **) &rendering_state.textures[tile], (void *) rdp.loaded_texture[tile].addr, tile, gfx_rapi, (void **) gfx_texture_cache.hashmap, (void *) gfx_texture_cache.pool, (int *) &gfx_texture_cache.pool_pos, MAX_CACHED_TEXTURES)) { return; }
      uint8_t fmt = rdp.texture_tile.fmt;
      uint8_t siz = rdp.texture_tile.siz;
+@@ -722,4 +715,6 @@ uint32_t calculate_checksum(const uint8_t *buf, size_t len) {
+ 
+ static void import_texture(int tile) {
++    extern s32 dynos_gfx_import_texture(void **output, void *ptr, s32 tile, void *grapi, void **hashmap, void *pool, s32 *poolpos, s32 poolsize);
++    if (dynos_gfx_import_texture((void **) &rendering_state.textures[tile], (void *) rdp.loaded_texture[tile].addr, tile, gfx_rapi, (void **) gfx_texture_cache.hashmap, (void *) gfx_texture_cache.pool, (int *) &gfx_texture_cache.pool_pos, MAX_CACHED_TEXTURES)) { return; }
+     uint32_t checksum;
+     uint8_t fmt = rdp.texture_tile.fmt;
